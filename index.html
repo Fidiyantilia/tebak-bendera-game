@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tebak Negara dari Bendera</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      text-align: center;
+      padding: 40px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: inline-block;
+    }
+    img {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌍 Tebak Negara dari Bendera</h1>
+  <div class="card">
+    <img id="flag" src="" alt="Bendera">
+    <div id="options"></div>
+    <p id="feedback"></p>
+    <button onclick="nextQuestion()">Soal Berikutnya</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        flag: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg",
+        correct: "Amerika Serikat",
+        options: ["Kanada", "Amerika Serikat", "Australia"]
+      },
+      {
+        flag: "https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg",
+        correct: "Prancis",
+        options: ["Italia", "Belanda", "Prancis"]
+      },
+      {
+        flag: "https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg",
+        correct: "Brasil",
+        options: ["Meksiko", "Brasil", "Argentina"]
+      }
+    ];
+
+    let current = 0;
+
+    function showQuestion() {
+      const q = questions[current];
+      document.getElementById("flag").src = q.flag;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsDiv.appendChild(btn);
+      });
+
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer(selected) {
+      const q = questions[current];
+      const feedback = document.getElementById("feedback");
+      if (selected === q.correct) {
+        feedback.textContent = "✅ Benar!";
+      } else {
+        feedback.textContent = `❌ Salah! Jawaban yang benar: ${q.correct}`;
+      }
+    }
+
+    function nextQuestion() {
+      current = (current + 1) % questions.length;
+      showQuestion();
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
